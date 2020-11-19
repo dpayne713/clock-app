@@ -41,7 +41,7 @@ async function getLocation() {
     const response = await fetch('/location', {
         method: 'GET', 
         mode: 'cors', 
-
+        
     })
     const data = await response.json(); 
     timeDOM.city.textContent = data.city; 

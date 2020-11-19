@@ -3,6 +3,7 @@ const path = require('path');
 const hbs = require('hbs'); 
 const request = require('postman-request');
 const bodyParser = require('body-parser');
+const requestIP = require('request-ip'); 
 
 const differenceInWeeks = require('date-fns/differenceInWeeks'); 
 const differenceInDays = require('date-fns/differenceInDays');
@@ -22,13 +23,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'hbs')
 app.set('views', viewsPath)
 
+
+
 app.get('/', (req,res)=>{
     res.render('index'); 
 });
 
 app.get('/location', (req,res)=> {
+    const clientIP = requestIP.getClientIp(req); 
 
-    request({url: 'https://freegeoip.app/json/', json: true}, (err, {body})=> {
+    request({url: `https://freegeoip.app/json/${clientIP}`, json: true}, (err, {body})=> {
 
         res.json({
             timeZone: body.time_zone, 
